@@ -1,1 +1,28 @@
-# goldapp
+name: Build APK
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Create Dummy APK for Test
+        run: |
+          mkdir -p app/build/outputs/apk/debug/
+          # ساخت یک فایل تست اندروید برای خروجی گرفتن
+          echo "Gold Calculator App" > app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gold-app-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
